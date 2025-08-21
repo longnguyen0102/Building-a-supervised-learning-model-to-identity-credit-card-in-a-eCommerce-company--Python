@@ -50,34 +50,32 @@ Using the whole dataset.
 <details>
  <summary>Table using in this project:</summary>
 
-Sheet 'ecommercer  retail'  
-
-| Field Name | Data Type |
-|------------|-----------|
-| (unnamed) | int64 |
-| (unnamed) | int64 |
-| trans_date_trans_time | object |
-| cc_num | int64 |
-| merchant | object |
-| category | object |
-| amt | float64 |
-| first | object |
-| last | object |
-| gender | object |
-| street | object |
-| city | object |
-| state | object |
-| zip | int64 |
-| lat | float64 |
-| long | float64 |
-| city_pop | int64 |
-| job | object |
-| dob | object |
-| trans_num | object |
-| unix_time | int64 |
-| merchant_lat | float64 |
-| merchant_long | float64 |
-| is_fraud | int64 |
+| Field Name | Data Type | Description |
+|------------|-----------|-----------|
+| (unnamed) | int64 |   |
+| (unnamed) | int64 |   |
+| trans_date_trans_time | object | The date and time of the transaction. | 
+| cc_num | int64 | Credit card number. |
+| merchant | object | Merchant who was getting paid. |
+| category | object | In what area does that merchant deal. |
+| amt | float64 | Amount of money in American Dollars. |
+| first | object | First name of the card holder. |
+| last | object | Last name of the card holder. |
+| gender | object | Gender of the cardholder. |
+| street | object | Street of card holder residence. |
+| city | object | City of card holder residence. |
+| state | object | State of card holder residence. |
+| zip | int64 | ZIP code of card holder residence. |
+| lat | float64 | Latitude of card holder. |
+| long | float64 | Longitude of card holder. |
+| city_pop | int64 | Population of the city. |
+| job | object | Trade of the card holder |
+| dob | object | Date of birth of the card holder. |
+| trans_num | object | Transaction ID |
+| unix_time | int64 | Unix time which is the time calculated since 1970 to today. |
+| merchant_lat | float64 | Latitude of the merchant |
+| merchant_long | float64 | Longitude of the merchant |
+| is_fraud | int64 | Whether the transaction is fraud(1) or not(0) |
 
 </details>
 
@@ -127,461 +125,160 @@ Sheet 'ecommercer  retail'
  <summary><strong>Basic data exploration:</strong></summary>
 
  ```python
- df.head()
+ data.head()
+
+ data.info()
+ ```
+
+ ![eda_1]()  
+
+ ```python
+ data.shape
+ ```
+
+ ![eda_2]()
+
+</details>
+
+➡️ The dataframe has 24 columns and 97,748 rows. The first 2 columns are not relevant -> drop them.  
+
+<details>
  
- # show rows and columns count
- print(f'Rows count: {df.shape[0]}\nColums count: {df.shape[1]}')
- 
- # show data type
- df.info()
- 
- # further checking on columns
- df.shape
- df.describe()
- 
- # check null values
- df.isnull().sum()
- 
+ ```python
+ # the first 2 columns are not relevant -> drop them
+ data = data.drop(['Unnamed: 0.1','Unnamed: 0'],axis=1)
+
+ data.info()
+ ```
+ ![eda_3]()
+
+</details>
+  
+➡️ After dropping, the dataframe now has 22 columns and 97,748 rows.  
+
+<details>
+ <summary><strong>Checking unique values:</strong></summary>
+
+ ```python
  # check unique values
  ## print the percentage of unique
- num_unique = df.nunique().sort_values()
- print('')
+ num_unique = data.nunique().sort_values()
  print('---Percentage of unique values (%)---')
  print(100/num_unique)
- 
- # check missing data
- missing_value = df.isnull().sum().sort_values(ascending = False)
- missing_percent = df.isnull().mean().sort_values(ascending = False)
- print('')
- print('---Number of missing values in each column---')
- print(missing_value)
- print('')
- print('---Percentage of missing values (%)---')
- if missing_percent.sum():
-   print(missing_percent[missing_percent > 0] * 100)
- else:
-   print('None')
- 
- # check for duplicates
- ## show number of duplicated rows
- print('')
- print(f'Number of entirely duplicated rows: {df.duplicated().sum()}')
- ## show all duplicated rows
- df[df.duplicated()]
  ```
-
-![](https://github.com/longnguyen0102/photo/blob/main/RFM_analysis-retail-python/RFM_analysis-retail-python_eda_1.png)  
-![](https://github.com/longnguyen0102/photo/blob/main/RFM_analysis-retail-python/RFM_analysis-retail-python_eda_2.png)
-
 </details>
 
-➡️ This dataset has 8 columns and 541,909 records. Most columns have right data type:  
-- InvoiceNo (object) -> change to string data type for further handling.  
-- CustomerID (float64) -> can be changed to int64 if needed.  
-  
-➡️ The percentage of duplicated values is acceptable. Missing values in "CustomerID" are high (~25%), it will affect the analysis. They need to verify and fill up as much as possible. 5268 rows of duplicating contain duplicated information of "Quantity", "InvoiceDate", "CustomerID", "Country". These rows are acceptable because there will be a customer buying many products in a day from any country.  
+ ![eda_4]()
 
 <details>
- <summary><strong>Change data type of 'InvoiceNo' to string:</strong></summary>
-
+ <summary>Checking missing values:</summary>
+ 
  ```python
- # change data type of Invoice No to string
- df['InvoiceNo'] = df['InvoiceNo'].astype(str)
+ missing_rows_percentage = data.isnull().any(axis=1).mean() * 100
+ print(missing_rows_percentage)
  ```
 
 </details>
 
-➡️ The purpose for this action: Easy for handling duplicated values.
+ ![eda_5]()
 
 <details>
- <summary><strong>Explore negative values of Quantity columns (Quantity < 0 and UnitPrice < 0):</strong></summary>
-  
+ <summary>Checking duplicates:</summary>
+ 
  ```python
- # print out some rows where Quantity < 0
- print('Some rows have Quantity < 0')
- print(df[df['Quantity']<0].head())
- 
- 
- # further checking
- ## make a new column: True if InvoiceNo has 'C', False if InvoiceNo has no 'C'
- df['Cancellation'] = df['InvoiceNo'].str.contains('C')
- 
- ## check InvoiceNo has 'C' and Quantity < 0
- print(df[(df['Cancellation'] == True) & (df['Quantity'] < 0)].head())
- print('asoidfbao',df['CustomerID'].isna().sum())
- 
- ## check InvoiceNo has no 'C' and Quantity < 0
- print(df[(df['Cancellation'] == False) & (df['Quantity'] < 0)].head())
+ duplicate_count = data.duplicated().sum()
+ print(duplicate_count)
  ```
-
- ![](https://github.com/longnguyen0102/photo/blob/main/RFM_analysis-retail-python/RFM_analysis-retail-python_eda_3.png)
-
- ```python
- # print out some rows where Quantity < 0
- print('Some rows have UnitPrice < 0')
- print(df[df['UnitPrice'] < 0].head())
- ```
-
-![](https://github.com/longnguyen0102/photo/blob/main/RFM_analysis-retail-python/RFM_analysis-retail-python_eda_4.png)
  
 </details>
 
-➡️ There are two reasons behind Quantity < 0:
-- Orders with InvoiceNo has C are cancelled orders.
-- Rows with UnitPrice = 0 are returned orders.
+![eda_6]()
 
-➡️ Orders with UnitPrice < 0 are in "Adjust bad dept" state as noted in "Description" column.  
-➡️ We can drop these rows to segment customers precisely.  
+➡️ As can be seen, 'gender' and 'is_fraud' have the highest percentage of unique values (50%) because they contains only 2 values (M or F in 'gender' and 0 and 1 in 'is_fraud'). There are no missing and duplicated values.  
+
+### 2️⃣ Feature Engineering
 
 <details>
- <summary><strong>Seperate "InvoiceDate" to "Day" and "Month" columns:</strong></summary>
-  
+ <summary>Transform as Hour of transaction:</summary>
+ 
  ```python
- # seperate InvoiceDate to Day and Month columns
- df['Day'] = pd.to_datetime(df.InvoiceDate).dt.date
- df['Month'] = df['Day'].apply(lambda x: str(x)[:-3])
- df.head()
+ data['tns_hour'] = data['trans_date_trans_time'].apply(lambda x: pd.to_datetime(x, format = '%Y-%m-%d %H:%M:%S').hour)
+ data[['trans_date_trans_time','tns_hour']].head()
  ```
-
- ![](https://github.com/longnguyen0102/photo/blob/main/RFM_analysis-retail-python/RFM_analysis-retail-python_eda_5.png)
 
 </details>
 
-➡️ The 'InvoiceDate' column is split into 'Day' and 'Month' to later identify the customer's most recent interaction date, which is essential for calculating the Recency metric.  
-
-#### Handle negative, missing values, duplicates:  
+![feature_engineering_1]()
 
 <details>
- <summary><strong>Negative values:</strong></summary>
-  
- ```python
- # change data type
- df['StockCode'] = df['StockCode'].astype(str)
- df['Description'] = df['Description'].astype(str)
- df['CustomerID'] = df['CustomerID'].astype(str)
- df['Country'] = df['Country'].astype(str)
- 
- # drop negative values in Quantity and UnitPrice column
- df = df[df['Quantity'] > 0]
- df = df[df['UnitPrice'] > 0]
- 
- # drop InvoiceNo with C
- df = df[df['Cancellation'] == False]
- 
- # replace NaN
- df = df.replace('nan', None)
- df = df.replace('Nan', None)
- 
- df.info()
- ```
+ <summary>Age of Users:</summary>
 
- ![](https://github.com/longnguyen0102/photo/blob/main/RFM_analysis-retail-python/RFM_analysis-retail-python_eda_6.png)
+ ```python
+ data['age'] = (2025 - data['dob'].apply(lambda x: pd.to_datetime(x, format = '%Y-%m-%d').year))
+ 
+ data[['dob','age']].head()
+ ```
 
 </details>
 
-➡️ Remove all negative values in 'Quantity', 'UnitPrice' and 'InvoiceNo' with 'C' because they are cancelled orders.  
+![feture_engineering_2]()
 
 <details>
- <summary><strong>Missing values:</strong></summary>
-  
- ```python
- # show up some rows with missing values
- print('---Some rows with missing values---')
- df_null = df.isnull()
- rows_with_null = df_null.any(axis=1)
- df_with_null = df[rows_with_null]
- print(df_with_null.head(10))
- ```
- ![](https://github.com/longnguyen0102/photo/blob/main/RFM_analysis-retail-python/RFM_analysis-retail-python_eda_7.png)
- 
- ```python
- # drop rows with CustomerID == None
- df_no_na = df.drop(df[df['CustomerID'].isnull()].index)
- df_no_na
- ```
+ <summary>Distance from user to merchant:</summary>
 
- ![](https://github.com/longnguyen0102/photo/blob/main/RFM_analysis-retail-python/RFM_analysis-retail-python_eda_8.png)
+ ```python
+ def harversine(lat1, lon1, lat2, lon2):
+   R = 6371  # Earth's radius in km
+   lat1, lon1, lat2, lon2 = map(math.radians,[lat1, lon1, lat2, lon2])
+ 
+   dlat = lat2 - lat1
+   dlon = lon2 - lon1
+   a = math.sin(dlat/2)**2 + math.cos(lat1) * math.cos(lat2)*math.sin(dlon/2)**2
+   c = 2 * math.sin(math.sqrt(a))
+ 
+   return R * c # Distance in km
+ 
+ data['distance'] = data.apply(lambda x: harversine(x['lat'],x['long'],x['merch_lat'],x['merch_long']),axis=1)
+ ```
 
 </details>
 
-➡️ Drop all rows with 'CustomerID' is null. The reason for this action is cannot identify the customers.  
+![feature_engineering_3]()
 
 <details>
- <summary><strong>Duplicated values:</strong></summary>
-  
+ <summary>Remove some unused features:</summary>
+
  ```python
- # locate the values are not duplicated in the selected columns
- df_no_dup = df_no_na.loc[~df.duplicated(subset = ['InvoiceNo','StockCode','InvoiceDate','UnitPrice','CustomerID','Country'])].reset_index(drop=True).copy()
- 
- # check an example of duplicate in InvoiceNo
- df_no_dup.query('InvoiceNo == "536365"')
- 
- df_no_dup.query('InvoiceNo == "581587"')
+ exclude_cols = ['trans_date_trans_time', 'cc_num','first','last','dob','trans_num','unix_time',
+               'long','lat','merch_lat','merch_long']
+ data.drop(columns = exclude_cols, inplace=True)
+
+ data.head()
  ```
  
- ![](https://github.com/longnguyen0102/photo/blob/main/RFM_analysis-retail-python/RFM_analysis-retail-python_eda_9.png)
- 
- ```python
- # drop duplicates, keep the first row of subset
- df_main = df.drop_duplicates(subset=["InvoiceNo", "StockCode","InvoiceDate","CustomerID"], keep = 'first')
- 
- df_main.head()
- ```
-
- ![](https://github.com/longnguyen0102/photo/blob/main/RFM_analysis-retail-python/RFM_analysis-retail-python_eda_10.png)
-
 </details>
 
-➡️ In this step, we drop all duplicated rows with same information from all columns "InvoiceNo", "StockCode", "InvoiceDate", "UnitPrice", "CustomerID", "Country". Then with the remaining result, keeping only the first rows for R-F-M calculation.  
+![feature_engineering_4]()
 
 <details>
- <summary><strong>Create 'Sales' column (Quantity * Price):</strong></summary>
-  
+ <summary>Encoding:</summary>
+
  ```python
- # create Sales column (Quantity * UnitPrice)
- df_main['Sales'] = df_main.Quantity * df.UnitPrice
- 
- # take max('Day') for recently interaction of customer
- last_day = df_main.Day.max()
- 
- last_day
- df_main
+ # printing a list of columns and numbers of value which have string data type
+ category_cols = data.select_dtypes(include = ['object'])
+ for col in category_cols:
+  print(f"{col}:{data[col].nunique()}")
  ```
-
- ![](https://github.com/longnguyen0102/photo/blob/main/RFM_analysis-retail-python/RFM_analysis-retail-python_eda_11.png)
-
+ 
 </details>
 
-➡️ Taking max of 'Day' in order to identify the most recent date of interaction of customers.  
+![feature_engineering_5]()
 
-### 2️⃣ Data processing   
+➡️ **In this case, we should avoid including fields with too many unique values in the model, as it would significantly increase training time — especially for features such as 'street' or 'city', since we have already calculated the distance from the merchant.**
 
-<details>
- <summary><strong>Handle Segmentation table</strong></summary>  
+**The 'job' column, however, can be included as it may improve prediction accuracy. To handle this properly, we should separate 'job' into a dedicated table and link it to the main table through 'id_merchant'. A secondary model can then be built on the 'job' table to group occupations into broader categories (job_category). The main model can subsequently learn using this 'job_category' feature.**
 
- ```python
- # import excel files with sheet name 'Segmentation'
- segmentation = pd.read_excel (path, sheet_name ='Segmentation')
- 
- # copy dataframe
- df_seg = segmentation
- 
- # transform Segmentation
- df_seg['RFM Score'] = df_seg['RFM Score'].str.split(',')
- df_seg = df_seg.explode('RFM Score').reset_index(drop=True)
- 
- df_seg.head()
- ```
-
- ![data_processing_1](https://github.com/longnguyen0102/photo/blob/main/RFM_analysis-retail-python/RFM_analysis-retail-python_data_processing_1.png)  
-
-</details>
-
-➡️ The Segmentation copy process involves duplicating a new Segmentation table to avoid interference with the original dataset, thereby preventing unintended data modifications. The transformation of the Segmentation table will split segments based on predefined RFM scores. These scores are currently separated by commas, so this process will parse them into the required segments accordingly.  
-<details>
- <summary><strong>Calculating RFM</strong></summary>
- 
- ```python
- # determining Recency, Frequency, Monetary
- df_RFM = df_main.groupby('CustomerID').agg(
-     Recency = ('Day', lambda x: last_day - x.max()),
-     Frequency = ('CustomerID','count'),
-     Monetary = ('Sales','sum'),
-     Start_Date = ('Day','min')
- ).reset_index()
- 
- df_RFM['Recency'] = df_RFM['Recency'].dt.days.astype('int16')
- # take opposite of Recency
- df_RFM['Reverse_Recency'] = -df_RFM['Recency']
- df_RFM['Start_Date'] = pd.to_datetime(df_RFM.Start_Date)
- 
- # label R, F, M
- df_RFM['R'] = pd.qcut(df_RFM['Reverse_Recency'], 5, labels = range(1,6)).astype(str)
- df_RFM['F'] = pd.qcut(df_RFM['Frequency'], 5, labels = range(1,6)).astype(str)
- df_RFM['M'] = pd.qcut(df_RFM['Monetary'], 5, labels = range(1,6)).astype(str)
- df_RFM['RFM'] = df_RFM.R + df_RFM.F + df_RFM.M
- 
- df_RFM.head()
- ```
- ![data_processing_2](https://github.com/longnguyen0102/photo/blob/main/RFM_analysis-retail-python/RFM_analysis-retail-python_data_processing_2.png)
-
- ```python
- # clear space
- df_seg['RFM Score'] = df_seg['RFM Score'].str.strip()
- 
- # merge with Segementation for comparison
- df_RFM_final = df_RFM.merge(df_seg, how='left', left_on='RFM', right_on='RFM Score')
- 
- df_RFM_final.head()
- ```
-
- ![data_processing_3](https://github.com/longnguyen0102/photo/blob/main/RFM_analysis-retail-python/RFM_analysis-retail-python_data_processing_3.png)
-
-</details>
-
-**In this stage, RFM is calculated:**  
-  1. Recency is computed as the last purchase date minus the dataset’s maximum date, the low value the better. However, the convenience in label, we use negative value of Recency. That means **the bigger the better**, and ranking is from 1 = worst to 5 = best.  
-  2. Frequency measures how often a customer makes a purchase and is computed as counting the number of appearance of each customer, **the bigger the better**.  
-  3. Monetary represents the total of money spending from each customer, **the bigger the better**.  
-Afterward, the results of the three metrics are assigned scores on a scale from 1 to 5.
-In the final step, the combined RFM scores are matched against the Segmentation table to assign each customer to a corresponding segment.  
-
-<details>
- <summary><strong>Determine Loyal and Non Loyal and showing characteristic of Potential Loyalist:</strong></summary>
-
- ```python
- df_RFM_final['Loyal_Status'] = df_RFM_final['Segment'].apply(lambda x: 'Loyal' if x in ('Loyal','Potential Loyalist') else 'Non Loyal')
-
- df_RFM_final.head()
- ```
-
- ![data_processing_4](https://github.com/longnguyen0102/photo/blob/main/RFM_analysis-retail-python/RFM_analysis-retail-python_data_processing_4.png)
-
-➡️ Determining "Loyal" and "Non Loyal" state based on Segmentation table.
-
-</details>
-
-<details>
- <summary><strong>Creating df_RFM_final for visualization:</strong></summary>
- 
- ```python
- # Average of Quantity and Sales according to CustomerID
- df_potential_average = df_main.groupby('CustomerID').agg(
-     Quantity_Average = ('Quantity','mean'),
-     Sales_Average = ('Sales','mean')
- ).reset_index()
- 
- df_potential_average.head()
- ```
-
- ![data_processing_5](https://github.com/longnguyen0102/photo/blob/main/RFM_analysis-retail-python/RFM_analysis-retail-python_data_processing_5.png)
-
- ```python
- # First Sales and Quantity according to CustomerID
- ## base on InvoiceDate to get first order -> Quantity, Sales
- df_main['Ranking'] = df_main.groupby('CustomerID')['InvoiceDate'].rank(method = 'first')
- df_potential_first = df_main[df_main.Ranking == 1][['CustomerID','Quantity','Sales']]
- df_potential_first = df_potential_first.rename(columns={'Quantity':'First_Quantity','Sales':'First_Sales'})
- 
- df_potential_first.head()
- ```
- 
- ![data_processing_6](https://github.com/longnguyen0102/photo/blob/main/RFM_analysis-retail-python/RFM_analysis-retail-python_data_processing_6.png)
-
- ```python
- # merge all
- df_RFM_final = df_RFM_final.merge(df_potential_average, how = 'left', on = 'CustomerID')
- df_RFM_final = df_RFM_final.merge(df_potential_first, how = 'left', on = 'CustomerID')
- 
- df_RFM_final.head()
- ```
-</details>
-
-|  | CustomerID | Recency | Frequency | Monetary | Start_Date | Reverse_Recency | R | F | M | RFM | Segment | RFM Score | Loyal_Status | Quantity_Average | Sales_Average | First_Quantity | First_Sales |
-|---|-----------|---------|-----------|----------|------------|-----------------|---|---|---|-----|---------|-----------|--------------|------------------|---------------|----------------|--------|
-| 0 | 12346.0 | 325 | 1 | 77183.60 | 2011-01-18 | -325 | 1 | 1 | 5 | 115 | Cannot Lose Them | 115 | Non Loyal | 74125.000000 | 77183.000000 | 74215 | 77183.6 |
-| 1 | 12347.0 | 2 | 182 | 4310.00 | 2010-12-07 | -2 | 5 | 5 | 5 | 555 | Champions | 555 | Non Loyal | 13.505495 | 23.681319 | 12 | 25.2 |
-| 2 | 12348.0 | 75 | 27 | 1595.64 | 2010-12-16 | -75 | 2 | 2 | 4 | 224 | At Risk | 224 | Non Loyal | 68.925926 | 59.097778 | 72 | 39.6 |
-| 3 | 12349.0 | 18 | 73 | 1757.55 | 2011-11-21 | -18 | 4 | 4 | 4 | 444 | Loyal | 444 | Loyal | 8.643836 | 24.076027 | 2 | 15.0 |
-| 4 | 12350.0 | 310 | 17 | 334.40 | 2011-02-02 | -310 | 1 | 2 | 2 | 122 | Hibernating customers | 122 | Non Loyal | 11.588235 | 19.670588 | 12 | 25.2 |
-
-### 3️⃣ Visualization  
-
-<details>
- <summary><strong>Histogram for R, F, M scores:</strong></summary>
-
- ```python
- # Histograms for R, F, and M scores
- fig, axes = plt.subplots(1, 3, figsize=(18, 6))
- 
- # Convert R, F, and M columns to integer type for correct ordering
- df_RFM_final['R_int'] = df_RFM_final['R'].astype(int)
- df_RFM_final['F_int'] = df_RFM_final['F'].astype(int)
- df_RFM_final['M_int'] = df_RFM_final['M'].astype(int)
- 
- 
- sns.histplot(data=df_RFM_final, x='R_int', ax=axes[0], kde=True, discrete=True)
- axes[0].set_title('Distribution of Recency (R) Scores')
- axes[0].set_xlabel('Recency Score')
- axes[0].set_ylabel('Number of Customers')
- axes[0].set_xticks(range(1, 6)) # Set explicit tick locations
- 
- sns.histplot(data=df_RFM_final, x='F_int', ax=axes[1], kde=True, discrete=True)
- axes[1].set_title('Distribution of Frequency (F) Scores')
- axes[1].set_xlabel('Frequency Score')
- axes[1].set_ylabel('Number of Customers')
- axes[1].set_xticks(range(1, 6)) # Set explicit tick locations
- 
- sns.histplot(data=df_RFM_final, x='M_int', ax=axes[2], kde=True, discrete=True)
- axes[2].set_title('Distribution of Monetary (M) Scores')
- axes[2].set_xlabel('Monetary Score')
- axes[2].set_ylabel('Number of Customers')
- axes[2].set_xticks(range(1, 6)) # Set explicit tick locations
- 
- 
- plt.tight_layout()
- plt.show()
- ```
-</details>
-
-![](https://github.com/longnguyen0102/photo/blob/main/RFM_analysis-retail-python/RFM_analysis-retail-python_visualization_R_F_M.png)
-
-➡️ As can be seen from the histogram:  
-- **Recency (R):** The chart shows that most customers have high Recency scores (4 and 5), concentrated on the right side of the distribution. This indicates that a majority of customers have made recent purchases. However, there is still a significant portion of customers with low Recency scores (1, 2, or 3), suggesting they haven't purchased in a while.
-- **Frequency (F):** The frequency distribution is left-skewed, with most customers having low Frequency scores (1 and 2). This indicates that the majority of customers do not purchase frequently. A small segment of customers with high Frequency scores (4 and 5) represents those who buy very regularly.
-- **Monetary (M):** The Monetary distribution is also left-skewed, similar to Frequency. This suggests that most customers have low spending values. Only a small number of customers have high Monetary scores (4 and 5), representing high-value spenders.  
-
-<details>
- <summary><strong>Visualize final dataset with RFM:</strong></summary>
-
- ```python
- # Visualize spending amount and number of user according to Segment.
- user_by_segment = df_RFM_final[['Segment','CustomerID']].groupby(['Segment']).count().reset_index()
- user_by_segment = user_by_segment.rename(columns = {'CustomerID':'user_volume'})
- user_by_segment['contribution_percent'] = round(user_by_segment['user_volume'] / user_by_segment['user_volume'].sum() * 100)
- user_by_segment['type'] = 'user contribution'
- 
- spending_by_segment = df_RFM_final[['Segment','Monetary']].groupby(['Segment']).sum().reset_index()
- spending_by_segment = spending_by_segment.rename(columns = {'Monetary':'spending'})
- spending_by_segment['contribution_percent'] = spending_by_segment['spending'] / spending_by_segment['spending'].sum() * 100
- spending_by_segment['type'] = 'spending contribution'
- 
- segment_agg = pd.concat([user_by_segment, spending_by_segment])
- 
- plt.figure(figsize=(20, 10))
- sns.barplot(segment_agg, x='Segment', y='contribution_percent', hue='type')
- plt.title='Spending amount and number of user according to Segment'
- 
- plt.show()
- ```
-</details>
-
-![](https://github.com/longnguyen0102/photo/blob/main/RFM_analysis-retail-python/RFM_analysis-retail-python_visualization.png)
-
-<details>
- <summary><strong>Visualize for sales trending:</strong></summary>
-
- ```python
- monthly_sales = df_main.groupby('Month')['Sales'].sum().reset_index()
- 
- # Convert Month to datetime for proper sorting
- monthly_sales['Month'] = pd.to_datetime(monthly_sales['Month'])
- 
- # Sort by month
- monthly_sales = monthly_sales.sort_values('Month')
- 
- # Visualize the sales trend over time
- plt.figure(figsize=(12, 6))
- sns.lineplot(data=monthly_sales, x='Month', y='Sales')
- plt.xlabel('Month')
- plt.ylabel('Total Sales')
- plt.xticks(rotation=45)
- plt.tight_layout()
- plt.show()
- ```
-</details>
-
-![](https://github.com/longnguyen0102/photo/blob/main/RFM_analysis-retail-python/RFM_analysis-retail-python_visualization_sales_trending.png)
+### 3️⃣ 
 
 ### 4️⃣ Insights and Actions (drawing from both graphs of RFM and sales trending)  
 
