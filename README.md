@@ -130,13 +130,13 @@ Using the whole dataset.
  data.info()
  ```
 
- ![eda_1]()  
+ ![eda_1](https://github.com/longnguyen0102/photo/blob/main/credit_card_fraud-python/eda_1.png)  
 
  ```python
  data.shape
  ```
 
- ![eda_2]()
+ ![eda_2](https://github.com/longnguyen0102/photo/blob/main/credit_card_fraud-python/eda_2.png)
 
 </details>
 
@@ -150,7 +150,7 @@ Using the whole dataset.
 
  data.info()
  ```
- ![eda_3]()
+ ![eda_3](https://github.com/longnguyen0102/photo/blob/main/credit_card_fraud-python/eda_3.png)
 
 </details>
   
@@ -168,7 +168,7 @@ Using the whole dataset.
  ```
 </details>
 
- ![eda_4]()
+ ![eda_4](https://github.com/longnguyen0102/photo/blob/main/credit_card_fraud-python/eda_4.png)
 
 <details>
  <summary>Checking missing values:</summary>
@@ -180,7 +180,7 @@ Using the whole dataset.
 
 </details>
 
- ![eda_5]()
+ ![eda_5](https://github.com/longnguyen0102/photo/blob/main/credit_card_fraud-python/eda_5.png)
 
 <details>
  <summary>Checking duplicates:</summary>
@@ -192,7 +192,7 @@ Using the whole dataset.
  
 </details>
 
-![eda_6]()
+![eda_6](https://github.com/longnguyen0102/photo/blob/main/credit_card_fraud-python/eda_6.png)
 
 ➡️ As can be seen, 'gender' and 'is_fraud' have the highest percentage of unique values (50%) because they contains only 2 values (M or F in 'gender' and 0 and 1 in 'is_fraud'). There are no missing and duplicated values.  
 
@@ -208,7 +208,7 @@ Using the whole dataset.
 
 </details>
 
-![feature_engineering_1]()
+![feature_engineering_1](https://github.com/longnguyen0102/photo/blob/main/credit_card_fraud-python/feature_engineering_1.png)
 
 <details>
  <summary>Age of Users:</summary>
@@ -221,7 +221,7 @@ Using the whole dataset.
 
 </details>
 
-![feture_engineering_2]()
+![feture_engineering_2](https://github.com/longnguyen0102/photo/blob/main/credit_card_fraud-python/feature_engineering_2.png)
 
 <details>
  <summary>Distance from user to merchant:</summary>
@@ -243,7 +243,7 @@ Using the whole dataset.
 
 </details>
 
-![feature_engineering_3]()
+![feature_engineering_3](https://github.com/longnguyen0102/photo/blob/main/credit_card_fraud-python/feature_engineering_3.png)
 
 <details>
  <summary>Remove some unused features:</summary>
@@ -258,7 +258,7 @@ Using the whole dataset.
  
 </details>
 
-![feature_engineering_4]()
+![feature_engineering_4](https://github.com/longnguyen0102/photo/blob/main/credit_card_fraud-python/feature_engineering_4.png)
 
 <details>
  <summary>Encoding:</summary>
@@ -272,7 +272,7 @@ Using the whole dataset.
  
 </details>
 
-![feature_engineering_5]()
+![feature_engineering_5](https://github.com/longnguyen0102/photo/blob/main/credit_card_fraud-python/feature_engineering_5.png)
 
 ➡️ **In this case, we should avoid including fields with too many unique values in the model, as it would significantly increase training time — especially for features such as 'street' or 'city', since we have already calculated the distance from the merchant.**
 
