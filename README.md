@@ -210,6 +210,8 @@ Using the whole dataset.
 
 ![feature_engineering_1](https://github.com/longnguyen0102/photo/blob/main/credit_card_fraud-python/feature_engineering_1.png)
 
+➡️  
+
 <details>
  <summary>Age of Users:</summary>
 
@@ -222,6 +224,8 @@ Using the whole dataset.
 </details>
 
 ![feture_engineering_2](https://github.com/longnguyen0102/photo/blob/main/credit_card_fraud-python/feature_engineering_2.png)
+
+➡️  
 
 <details>
  <summary>Distance from user to merchant:</summary>
@@ -243,6 +247,8 @@ Using the whole dataset.
 
 </details>
 
+➡️  
+
 <details>
  <summary>Remove some unused features:</summary>
 
@@ -257,6 +263,8 @@ Using the whole dataset.
 </details>
 
 ![feature_engineering_3](https://github.com/longnguyen0102/photo/blob/main/credit_card_fraud-python/feature_engineering_3.png)
+
+➡️  
 
 <details>
  <summary>Encoding:</summary>
