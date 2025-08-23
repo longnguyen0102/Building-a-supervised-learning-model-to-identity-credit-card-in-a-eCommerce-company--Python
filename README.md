@@ -210,7 +210,8 @@ Using the whole dataset.
 
 ![feature_engineering_1](https://github.com/longnguyen0102/photo/blob/main/credit_card_fraud-python/feature_engineering_1.png)
 
-➡️ This code is creating a new column called tns_hour in the data DataFrame. It does this by applying a function to the trans_date_trans_time column. The function converts each date and time string into a datetime object and then extracts the hour from that object. Finally, it displays the first few rows of the original trans_date_trans_time column and the newly created tns_hour column to show the result.  
+➡️ This code is creating a new column called 'tns_hour' in the data DataFrame. It does this by applying a function to the 'trans_date_trans_time' column. The function converts each date and time string into a datetime object and then extracts the hour from that object. Finally, it displays the first few rows of the original 'trans_date_trans_time' column and the newly created 'tns_hour' column to show the result.  
+➡️ The purpose of creating the 'tns_hour' column is to extract the transaction hour from the full datetime field ('trans_date_trans_time'). Transaction time can be an important factor in fraud detection, as fraudulent activities may tend to occur during specific hours of the day. By including the 'tns_hour' feature, the model can learn patterns related to the timing of transactions.  
 
 <details>
  <summary>Age of Users:</summary>
@@ -225,7 +226,8 @@ Using the whole dataset.
 
 ![feture_engineering_2](https://github.com/longnguyen0102/photo/blob/main/credit_card_fraud-python/feature_engineering_2.png)
 
-➡️  
+➡️ This code creates a new column called 'age' in the data DataFrame. It calculates the age of each person by subtracting the year of their birth (extracted from the 'dob' column after converting it to a datetime object) from the year 2025. Finally, it displays the first few rows of the original 'dob' column and the newly created 'age' column to show the result of the calculation.    
+➡️ The purpose of creating the 'age' column is to incorporate the user’s age into the model. Age can be an important feature in fraud detection, as different age groups may exhibit different spending behaviors or have varying levels of vulnerability to fraud. By including age as a feature, the model can leverage this information to improve prediction accuracy.  
 
 <details>
  <summary>Distance from user to merchant:</summary>
@@ -247,7 +249,8 @@ Using the whole dataset.
 
 </details>
 
-➡️  
+➡️ This code defines a function called 'harversine' that calculates the distance between two points on the Earth given their latitude and longitude using the Haversine formula. It then applies this function to each row of the data DataFrame to calculate the distance between the user's location ('lat', 'long') and the merchant's location ('merch_lat', 'merch_long'), storing the result in a new column called 'distance'. This distance could be a useful feature for fraud detection, as fraudulent transactions might involve unusual distances between the user and the merchant.  
+➡️ The purpose of creating the 'distance' column is to measure the geographical distance between the user’s location and the merchant’s location. This distance can be an important feature for fraud detection. For example, a transaction occurring unusually far from the user’s typical location may indicate potential fraudulent activity. By calculating and including this distance in the model, we can help the model identify suspicious transactions based on location-related patterns.  
 
 <details>
  <summary>Remove some unused features:</summary>
@@ -264,10 +267,10 @@ Using the whole dataset.
 
 ![feature_engineering_3](https://github.com/longnguyen0102/photo/blob/main/credit_card_fraud-python/feature_engineering_3.png)
 
-➡️  
+➡️ After using all of these features, we drop them so model will learn faster.  
 
 <details>
- <summary>Encoding:</summary>
+ <summary>Printing list of columns and numbers of value which have string data type:</summary>
 
  ```python
  # printing a list of columns and numbers of value which have string data type
@@ -280,11 +283,28 @@ Using the whole dataset.
 
 ![feature_engineering_4](https://github.com/longnguyen0102/photo/blob/main/credit_card_fraud-python/feature_engineering_4.png)
 
-➡️ **In this case, we should avoid including fields with too many unique values in the model, as it would significantly increase training time — especially for features such as 'street' or 'city', since we have already calculated the distance from the merchant.**
+<details>
+ <summary>Encoding 'category', 'gender', 'state' columns: </summary>
 
-**The 'job' column, however, can be included as it may improve prediction accuracy. To handle this properly, we should separate 'job' into a dedicated table and link it to the main table through 'id_merchant'. A secondary model can then be built on the 'job' table to group occupations into broader categories (job_category). The main model can subsequently learn using this 'job_category' feature.**
+ ```python
+ # encoding 'category', 'gender', 'state'
+ list_columns = ['category','gender','state']
+ df_encoded = pd.get_dummies(data, columns = list_columns, drop_first=True)
+ ```
 
-### 3️⃣ 
+ ```python
+ # drop all unused columns
+ cols = ['merchant','street','city','job']
+ df_encoded.drop(columns=cols,inplace=True)
+ ```
+
+</details>
+
+➡️ When examining the total number of columns with the data type string, we observe that the columns 'merchant', 'street', 'city', and 'job' contain a very large number of unique values (each over 400). Encoding these columns would create a large number of additional features and significantly increase training time. Since these features are not essential for detecting credit card fraud, we will drop them.  
+
+Instead, we will encode the remaining categorical columns ('category', 'gender', 'state') so that the model can learn more efficiently. In this case, we will convert these columns into boolean (True/False) values.  
+
+### 3️⃣ Model Training  
 
 ### 4️⃣ Insights and Actions (drawing from both graphs of RFM and sales trending)  
 
