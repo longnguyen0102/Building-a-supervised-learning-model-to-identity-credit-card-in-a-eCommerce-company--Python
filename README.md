@@ -337,9 +337,9 @@ Instead, we will encode the remaining categorical columns ('category', 'gender',
 ![](https://github.com/longnguyen0102/photo/blob/main/credit_card_fraud-python/model_training_1.png)
 
 ➡️ ***Splitting*** the dataset into training, validation, and test sets serves several critical purposes in machine learning:  
-1. *Preventing Overfitting:* Overfitting occurs when a model learns patterns too specifically from the training data and fails to generalize to unseen data. By keeping a portion of the dataset (validation and test sets) separate during training, we can evaluate whether the model generalizes well.  
-2. *Model Performance Evaluation:* The test set provides an unbiased evaluation of the final model’s performance on completely unseen data. This gives us a realistic estimate of how the model will behave in production or real-world scenarios.  
-3. *Model Selection and Hyperparameter Tuning:* The validation set is used during model development to:  
+1. *Preventing overfitting:* Overfitting occurs when a model learns patterns too specifically from the training data and fails to generalize to unseen data. By keeping a portion of the dataset (validation and test sets) separate during training, we can evaluate whether the model generalizes well.  
+2. *Model performance evaluation:* The test set provides an unbiased evaluation of the final model’s performance on completely unseen data. This gives us a realistic estimate of how the model will behave in production or real-world scenarios.  
+3. *Model selection and hyperparameter tuning:* The validation set is used during model development to:  
 - Compare the performance of different models.  
 - Fine-tune hyperparameters to optimize performance without touching the test set.  
 In summary, dataset splitting ensures that we build machine learning models that are robust, reliable, and capable of generalizing effectively to new data.  
