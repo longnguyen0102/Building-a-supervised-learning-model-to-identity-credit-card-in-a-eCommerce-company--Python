@@ -336,15 +336,59 @@ Instead, we will encode the remaining categorical columns ('category', 'gender',
 
 ![](https://github.com/longnguyen0102/photo/blob/main/credit_card_fraud-python/model_training_1.png)
 
-➡️ Splitting the dataset into training, validation, and test sets serves several critical purposes in machine learning:  
+➡️ ***Splitting*** the dataset into training, validation, and test sets serves several critical purposes in machine learning:  
 1. *Preventing Overfitting:* Overfitting occurs when a model learns patterns too specifically from the training data and fails to generalize to unseen data. By keeping a portion of the dataset (validation and test sets) separate during training, we can evaluate whether the model generalizes well.  
 2. *Model Performance Evaluation:* The test set provides an unbiased evaluation of the final model’s performance on completely unseen data. This gives us a realistic estimate of how the model will behave in production or real-world scenarios.  
-3. *Model Selection and Hyperparameter Tuning:* The validation set is used during model development to:
+3. *Model Selection and Hyperparameter Tuning:* The validation set is used during model development to:  
 - Compare the performance of different models.  
 - Fine-tune hyperparameters to optimize performance without touching the test set.  
 In summary, dataset splitting ensures that we build machine learning models that are robust, reliable, and capable of generalizing effectively to new data.  
 
 ➡️ First, we drop the column is_fraud, since after training the model will generate a new is_fraud column to record the predictions. This allows us to compare the actual values with the model’s outputs. Next, we split the dataset into two parts: a training set (70% of the data) and a temporary set (30%). The temporary set is then further divided into a validation set (70%) and a test set (30%).  
+
+<details>
+ <summary>Normalize dataset:</summary>
+
+ ```python
+ scaler = MinMaxScaler()
+
+ # fit() method for calculating min and max of each feature in train dataset
+ x_train_scaled = scaler.fit_transform(x_train)
+ 
+ x_val_scaled = scaler.transform(x_val)
+ 
+ x_test_scaled = scaler.transform(x_test)
+ ```
+
+</details>
+
+➡️ ***Normalization*** is a data preprocessing step that rescales the features of a dataset to a standard range. This is often done to improve the performance of machine learning algorithms, as many algorithms are sensitive to the scale of input features.
+
+<details>
+ <summary>Apply model:</summary>
+
+ ```python
+ # Logistic regression:
+
+ clf_logis = LogisticRegression(random_state = 42)
+ clf_logis.fit(x_train_scaled, y_train)
+ 
+ y_pred_val = clf_logis.predict(x_val_scaled)
+ y_pred_train = clf_logis.predict(x_train_scaled)
+ ```
+
+ ```python
+ # Random Forest:
+ 
+ clf_rand = RandomForestClassifier(max_depth=15, random_state=42, n_estimators=100)
+ 
+ clf_rand.fit(x_train_scaled, y_train)
+ 
+ y_ranf_pre_train = clf_rand.predict(x_train_scaled)
+ y_ranf_pre_val = clf_rand.predict(x_val_scaled)
+ ```
+
+</details>
 
 ### 4️⃣ Insights and Actions (drawing from both graphs of RFM and sales trending)  
 
