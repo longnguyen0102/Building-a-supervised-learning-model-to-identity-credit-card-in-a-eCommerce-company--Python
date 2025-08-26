@@ -306,6 +306,46 @@ Instead, we will encode the remaining categorical columns ('category', 'gender',
 
 ### 3️⃣ Model Training  
 
+**In this process, we will do three steps to build a Machine Learning model:**  
+**- Split dataset.**  
+**- Normalize each dataset.**  
+**- Apply model.**  
+
+<details>
+ <summary>Split dataset to train, validate, test:</summary>
+
+ ```python
+ # drop 'is_fraud' column
+ x = df_encoded.drop('is_fraud', axis = 1)
+ 
+ # creating dataframe y with 'is_fraud' column
+ y = df_encoded[['is_fraud']]
+ 
+ # split dataset into train (70%) and temp (30%) dataset
+ x_train, x_temp, y_train, y_temp = train_test_split(x, y, test_size=0.3, random_state=42)
+ 
+ # split temp dataset into validate (70%) and test (30%) dataset
+ x_val, x_test, y_val, y_test = train_test_split(x_temp, y_temp, test_size=0.3, random_state=42)
+ 
+ print(f'Number data of train set: {len(x_train)}')
+ print(f'Number data of validate set: {len(x_val)}')
+ print(f'Number data of test set: {len(x_test)}')
+ ```
+
+</details>
+
+![](https://github.com/longnguyen0102/photo/blob/main/credit_card_fraud-python/model_training_1.png)
+
+➡️ Splitting the dataset into training, validation, and test sets serves several critical purposes in machine learning:  
+1. *Preventing Overfitting:* Overfitting occurs when a model learns patterns too specifically from the training data and fails to generalize to unseen data. By keeping a portion of the dataset (validation and test sets) separate during training, we can evaluate whether the model generalizes well.  
+2. *Model Performance Evaluation:* The test set provides an unbiased evaluation of the final model’s performance on completely unseen data. This gives us a realistic estimate of how the model will behave in production or real-world scenarios.  
+3. *Model Selection and Hyperparameter Tuning:* The validation set is used during model development to:
+- Compare the performance of different models.  
+- Fine-tune hyperparameters to optimize performance without touching the test set.  
+In summary, dataset splitting ensures that we build machine learning models that are robust, reliable, and capable of generalizing effectively to new data.  
+
+➡️ First, we drop the column is_fraud, since after training the model will generate a new is_fraud column to record the predictions. This allows us to compare the actual values with the model’s outputs. Next, we split the dataset into two parts: a training set (70% of the data) and a temporary set (30%). The temporary set is then further divided into a validation set (70%) and a test set (30%).  
+
 ### 4️⃣ Insights and Actions (drawing from both graphs of RFM and sales trending)  
 
 ✔️ The **"Champions"** segment is the core revenue driver: The chart shows that the **"Champions"** group contributes the largest share of revenue—over 60%—despite representing only around 18% of the total customer base. This highlights the critical importance of this segment to SuperStore. These are the most frequent, recent, and high-spending customers.  
