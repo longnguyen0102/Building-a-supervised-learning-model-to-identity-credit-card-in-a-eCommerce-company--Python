@@ -337,7 +337,7 @@ Instead, we will encode the remaining categorical columns ('category', 'gender',
 ![](https://github.com/longnguyen0102/photo/blob/main/credit_card_fraud-python/model_training_1.png)
 
 ➡️ ***Splitting*** the dataset into training, validation, and test sets serves several critical purposes in machine learning:  
-1. *Preventing overfitting:* Overfitting occurs when a model learns patterns too specifically from the training data and fails to generalize to unseen data. By keeping a portion of the dataset (validation and test sets) separate during training, we can evaluate whether the model generalizes well.  
+1. *Preventing overfitting:* Overfitting occurs when a model learns patterns too specifically from the training data and fails to generalize to unseen data. By keeping a portion of the dataset (validation and test sets) separate during training, we can evaluate whether the model generalizes well.
 2. *Model performance evaluation:* The test set provides an unbiased evaluation of the final model’s performance on completely unseen data. This gives us a realistic estimate of how the model will behave in production or real-world scenarios.  
 3. *Model selection and hyperparameter tuning:* The validation set is used during model development to:  
 - Compare the performance of different models.  
@@ -395,12 +395,10 @@ In summary, dataset splitting ensures that we build machine learning models that
 | Logistics regression | Random Forest |
 |----------------------|---------------|
 | Logistic Regression is a statistical model used for binary classification problems. In simpler terms, it's used to predict the probability that an observation belongs to one of two categories (like 'yes' or 'no', 'fraudulent' or 'not fraudulent'). | Random Forest is another popular machine learning algorithm, and it's an ensemble method. This means it combines the predictions of multiple individual decision trees to make a final prediction. |
-| 1. **Simplicity and Interpretability:** Logistic Regression is relatively straightforward to understand and the coefficients of the model can be interpreted as the change in the log-odds of the outcome for a one-unit change in the predictor variable. This makes it easy to explain which factors are influencing the prediction.  
-2. **Efficiency:** It's computationally less expensive than more complex algorithms, making it suitable for large datasets or situations where quick predictions are needed.  
-3. **Baseline Model:** It often serves as a good baseline model to compare the performance of more complex algorithms against. | 1. **Improved Accuracy:** By combining multiple trees, Random Forest often achieves higher accuracy than a single decision tree, especially on complex datasets. It reduces the risk of overfitting that can occur with individual decision trees.  
-2. **Robustness to Outliers:** Random Forest is less sensitive to outliers in the data compared to some other algorithms.  
-3. **Handles Non-linear Relationships:** It can capture complex, non-linear relationships between features and the target variable.  
-4. **Feature Importance:** Random Forest can provide insights into which features are most important for making predictions. |
+| 1. **Simplicity and Interpretability:** Logistic Regression is relatively straightforward to understand and the coefficients of the model can be interpreted as the change in the log-odds of the outcome for a one-unit change in the predictor variable. This makes it easy to explain which factors are influencing the prediction. | 1. **Improved Accuracy:** By combining multiple trees, Random Forest often achieves higher accuracy than a single decision tree, especially on complex datasets. It reduces the risk of overfitting that can occur with individual decision trees. |
+| 2. **Efficiency:** It's computationally less expensive than more complex algorithms, making it suitable for large datasets or situations where quick predictions are needed. | 2. **Robustness to Outliers:** Random Forest is less sensitive to outliers in the data compared to some other algorithms. |
+| 3. **Baseline Model:** It often serves as a good baseline model to compare the performance of more complex algorithms against. | 3. **Handles Non-linear Relationships:** It can capture complex, non-linear relationships between features and the target variable. |
+|   | 4. **Feature Importance:** Random Forest can provide insights into which features are most important for making predictions. |
 
 ### 4️⃣ Insights and Actions (drawing from both graphs of RFM and sales trending)  
 
