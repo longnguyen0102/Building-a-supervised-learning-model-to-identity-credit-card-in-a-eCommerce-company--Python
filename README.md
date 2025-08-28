@@ -390,23 +390,19 @@ In summary, dataset splitting ensures that we build machine learning models that
 
 </details>
 
+➡️ Applying both approaches to build the machine learning model. The goal is to compare them and identify which approach yields the best evaluation metrics.  
+
+| Logistics regression | Random Forest |
+|----------------------|---------------|
+| Logistic Regression is a statistical model used for binary classification problems. In simpler terms, it's used to predict the probability that an observation belongs to one of two categories (like 'yes' or 'no', 'fraudulent' or 'not fraudulent'). | Random Forest is another popular machine learning algorithm, and it's an ensemble method. This means it combines the predictions of multiple individual decision trees to make a final prediction. |
+| 1. **Simplicity and Interpretability:** Logistic Regression is relatively straightforward to understand and the coefficients of the model can be interpreted as the change in the log-odds of the outcome for a one-unit change in the predictor variable. This makes it easy to explain which factors are influencing the prediction.  
+2. **Efficiency:** It's computationally less expensive than more complex algorithms, making it suitable for large datasets or situations where quick predictions are needed.  
+3. **Baseline Model:** It often serves as a good baseline model to compare the performance of more complex algorithms against. | 1. **Improved Accuracy:** By combining multiple trees, Random Forest often achieves higher accuracy than a single decision tree, especially on complex datasets. It reduces the risk of overfitting that can occur with individual decision trees.  
+2. **Robustness to Outliers:** Random Forest is less sensitive to outliers in the data compared to some other algorithms.  
+3. **Handles Non-linear Relationships:** It can capture complex, non-linear relationships between features and the target variable.  
+4. **Feature Importance:** Random Forest can provide insights into which features are most important for making predictions. |
+
 ### 4️⃣ Insights and Actions (drawing from both graphs of RFM and sales trending)  
 
-✔️ The **"Champions"** segment is the core revenue driver: The chart shows that the **"Champions"** group contributes the largest share of revenue—over 60%—despite representing only around 18% of the total customer base. This highlights the critical importance of this segment to SuperStore. These are the most frequent, recent, and high-spending customers.  
-➡️ **Action:** It is essential to focus on maintaining and enhancing the experience for **"Champions"** to ensure stable and sustainable revenue.
-
-✔️ The **"Loyal"** segment also makes a significant contribution: The **"Loyal"** customers account for approximately 10% of the total customer base and contribute a notable portion of revenue—over 10%.  
-➡️ **Action:** This is a high-potential segment that can be nurtured to become future **"Champions"** Targeted initiatives such as personalized offers, loyalty programs, or incentives could encourage them to increase purchase frequency and order value.  
-
-✔️ The **"Potential Loyalist"** segment shows promise but needs activation: The **"Potential Loyalist"** group represents a relatively high share of the customer base (11%) but contributes only around 3.2% of total revenue. This aligns with the typical characteristics of this segment—good Recency and Frequency, but low Monetary value.  
-➡️ **Action:** Targeted campaigns should aim to increase spending per transaction for this group in order to convert them into **"Loyal"** or even **"Champions"** over time. Strategies could include personalized upselling, product bundling, or limited-time promotions to encourage higher basket sizes.
-
-✔️ Based on the *sales trending* graph:  
-➡️ Quarter fourth is a good time for **upselling**. This is the time that customers will spend more money for preparing for Holiday Season. Upselling programs are focus on increasing average order value instead of discount.  
-➡️ Months in early and middle of the year are the time for launching **customer incentive and relation programs**. During these time, the need for buying is low. That is the reason for these programs to step in, they will attract more customers (even new ones) and increase customers' Frequency, like: price discount, buy 1 get 1, voucher for the next buying,...  
-➡️ Months before sales increasing (such as September) is the time for **"heat up the market"**. Launching early promotion programs, new products, new collections are not the bad idea.  
-
 ## 📌 Key Takeaways:  
-✔️ Understand how **RFM analysis** can be used to evaluate customer behavior based on purchase frequency and spending value.  
-✔️ **Classify customers** into specific segments using RFM scores, helping identify which segments require enhanced experiences and which should be retained and nurtured to move toward higher-value tiers.  
-✔️ Determine the **optimal timing** for launching promotional campaigns and upselling strategies, enabling the business to both retain existing customers and attract new ones.
+✔️ 
