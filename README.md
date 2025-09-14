@@ -21,17 +21,13 @@ Tools Used: Python
 ### Objective:
 ### 📖 This project is about using Python to 
 
-✔️   
-✔️   
-✔️   
-✔️   
-✔️ 
+✔️ Build a machine learning model based on the available dataset, with the purpose of detecting fraudulent credit card transactions.   
+✔️ Through this process, apply and understand the fundamental steps of developing a machine learning model.    
 
 ### 👤 Who is this project for?  
 
-✔️   
-✔️   
-✔️   
+✔️ Decision makers.   
+✔️ The company’s information security department.  
 
 ---
 
@@ -402,7 +398,56 @@ In summary, dataset splitting ensures that we build machine learning models that
 
 ### 4️⃣ Model Evaluation  
 
+➡️ ***Model evaluation*** is a crucial step in the machine learning workflow. It helps us understand how well our trained model performs on unseen data and assess its effectiveness in solving the problem at hand. By evaluating a model, we can:  
+1. *Measure Performance:* Quantify the model's accuracy, precision, recall, or other relevant metrics to understand its strengths and weaknesses.
+2. *Compare Models:* Determine which model is best suited for the task when comparing different algorithms or hyperparameter settings.  
+3. *Identify Overfitting/Underfitting:* Check if the model is too complex (overfitting) or too simple (underfitting) by comparing its performance on training and validation/test datasets.
+4. *Tune Hyperparameters:* Use evaluation metrics to guide the process of optimizing the model's hyperparameters for better performance.
+5. *Gain Confidence:* Build confidence in the model's ability to generalize to new data before deploying it.  
+
+➡️ In this step, using 2 steps for evaluating model (on both Logistic Regression and Random Forest): **calculating balanced accuracy** and **using Confusion Matrix plot for visualization performance**.  
+- Calcualting balanced accuracy: this step applies on training and validation data. It compares the model's predictions on the training data to the true values and gives you a balanced measure of how well the model performed on the training set.  
+- Confusion matrix: a table that summarizes the performance of a classification model. It shows the number of correct and incorrect predictions made by the model compared to the actual outcomes.  
+
 #### Logistic Regression:  
+
+<details>
+ <summary>Balanced accuracy:</summary>
+
+ ```python
+ # calculates the balanced accuracy on the training data. Compared the actual target values in training data with prediction on the training data.
+ balanced_accuracy_train = balanced_accuracy_score(y_train, y_pred_train)
+ 
+ # calculates the balanced accuracy on the validation data. Compared the actual target values in validation data with prediction on the validation data.
+ balanced_accuracy_val = balanced_accuracy_score(y_val, y_pred_val)
+ 
+ print(f'Balanced accuracy training data: {balanced_accuracy_train}')
+ print(f'Balanced accuracy validation data: {balanced_accuracy_val}')
+ ```
+</details>
+
+![](https://github.com/longnguyen0102/photo/blob/main/credit_card_fraud-python/model_training_2.png)
+
+➡️ In this case, the balanced accuracy of approximately 0.69 for both the training and validation sets suggests that the Logistic Regression model has a modest ability to correctly classify both fraudulent and non-fraudulent transactions. A balanced accuracy of 1.0 would indicate perfect performance, while 0.5 would indicate performance no better than random guessing.  
+➡️ The close scores between the training and validation sets suggest that the model is not significantly overfitting to the training data. However, a balanced accuracy of 0.69 indicates there is still significant room for improvement in correctly identifying both classes, especially the minority class (fraudulent transactions).  
+
+<details>
+ <summary>Confusion matrix:</summary>
+
+ ```python
+ cm = confusion_matrix(y_val, y_pred_val, labels=clf_logis.classes_)
+ disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=clf_logis.classes_)
+ disp.plot(
+ ```
+</details>
+
+1. **True Negatives (TN):** 18967 - The model is very good at correctly identifying non-fraudulent transactions.
+2. **True Positives (TP):** 570 - The model correctly identifies a significant number of fraudulent transactions.
+3. **False Positives (FP):** 45 - The model incorrectly flags a relatively small number of non-fraudulent transactions as fraudulent.
+4. **False Negatives (FN):** 945 - The model misses a substantial number of fraudulent transactions.
+
+***Conclusion for Logistic Regression:***
+The Logistic Regression model has a high true negative rate, meaning it's effective at identifying legitimate transactions. However, it has a relatively high number of false negatives, indicating that it is not as effective at catching fraudulent transactions. This suggests that while the model has good precision (when it predicts fraud, it's often correct), it has lower recall (it misses many actual fraudulent cases). In a fraud detection context, minimizing false negatives is often a higher priority than minimizing false positives, as missing fraud is generally more costly than incorrectly flagging a legitimate transaction.
 
 ## 📌 Key Takeaways:  
 ✔️ 
