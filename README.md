@@ -206,8 +206,8 @@ Using the whole dataset.
 
 ![feature_engineering_1](https://github.com/longnguyen0102/photo/blob/main/credit_card_fraud-python/feature_engineering_1.png)
 
-❔This code is creating a new column called 'tns_hour' in the data DataFrame. It does this by applying a function to the 'trans_date_trans_time' column. The function converts each date and time string into a datetime object and then extracts the hour from that object. Finally, it displays the first few rows of the original 'trans_date_trans_time' column and the newly created 'tns_hour' column to show the result.  
-❕ The purpose of creating the 'tns_hour' column is to extract the transaction hour from the full datetime field ('trans_date_trans_time'). Transaction time can be an important factor in fraud detection, as fraudulent activities may tend to occur during specific hours of the day. By including the 'tns_hour' feature, the model can learn patterns related to the timing of transactions.  
+✅ This code is creating a new column called 'tns_hour' in the data DataFrame. It does this by applying a function to the 'trans_date_trans_time' column. The function converts each date and time string into a datetime object and then extracts the hour from that object. Finally, it displays the first few rows of the original 'trans_date_trans_time' column and the newly created 'tns_hour' column to show the result.  
+✅ The purpose of creating the 'tns_hour' column is to extract the transaction hour from the full datetime field ('trans_date_trans_time'). Transaction time can be an important factor in fraud detection, as fraudulent activities may tend to occur during specific hours of the day. By including the 'tns_hour' feature, the model can learn patterns related to the timing of transactions.  
 
 <details>
  <summary>Age of Users:</summary>
@@ -222,8 +222,8 @@ Using the whole dataset.
 
 ![feture_engineering_2](https://github.com/longnguyen0102/photo/blob/main/credit_card_fraud-python/feature_engineering_2.png)
 
-➡️ This code creates a new column called 'age' in the data DataFrame. It calculates the age of each person by subtracting the year of their birth (extracted from the 'dob' column after converting it to a datetime object) from the year 2025. Finally, it displays the first few rows of the original 'dob' column and the newly created 'age' column to show the result of the calculation.    
-➡️ The purpose of creating the 'age' column is to incorporate the user’s age into the model. Age can be an important feature in fraud detection, as different age groups may exhibit different spending behaviors or have varying levels of vulnerability to fraud. By including age as a feature, the model can leverage this information to improve prediction accuracy.  
+✅ This code creates a new column called 'age' in the data DataFrame. It calculates the age of each person by subtracting the year of their birth (extracted from the 'dob' column after converting it to a datetime object) from the year 2025. Finally, it displays the first few rows of the original 'dob' column and the newly created 'age' column to show the result of the calculation.    
+✅ The purpose of creating the 'age' column is to incorporate the user’s age into the model. Age can be an important feature in fraud detection, as different age groups may exhibit different spending behaviors or have varying levels of vulnerability to fraud. By including age as a feature, the model can leverage this information to improve prediction accuracy.  
 
 <details>
  <summary>Distance from user to merchant:</summary>
@@ -245,8 +245,8 @@ Using the whole dataset.
 
 </details>
 
-➡️ This code defines a function called 'harversine' that calculates the distance between two points on the Earth given their latitude and longitude using the Haversine formula. It then applies this function to each row of the data DataFrame to calculate the distance between the user's location ('lat', 'long') and the merchant's location ('merch_lat', 'merch_long'), storing the result in a new column called 'distance'. This distance could be a useful feature for fraud detection, as fraudulent transactions might involve unusual distances between the user and the merchant.  
-➡️ The purpose of creating the 'distance' column is to measure the geographical distance between the user’s location and the merchant’s location. This distance can be an important feature for fraud detection. For example, a transaction occurring unusually far from the user’s typical location may indicate potential fraudulent activity. By calculating and including this distance in the model, we can help the model identify suspicious transactions based on location-related patterns.  
+✅ This code defines a function called 'harversine' that calculates the distance between two points on the Earth given their latitude and longitude using the Haversine formula. It then applies this function to each row of the data DataFrame to calculate the distance between the user's location ('lat', 'long') and the merchant's location ('merch_lat', 'merch_long'), storing the result in a new column called 'distance'. This distance could be a useful feature for fraud detection, as fraudulent transactions might involve unusual distances between the user and the merchant.  
+✅ The purpose of creating the 'distance' column is to measure the geographical distance between the user’s location and the merchant’s location. This distance can be an important feature for fraud detection. For example, a transaction occurring unusually far from the user’s typical location may indicate potential fraudulent activity. By calculating and including this distance in the model, we can help the model identify suspicious transactions based on location-related patterns.  
 
 <details>
  <summary>Remove some unused features:</summary>
@@ -332,7 +332,7 @@ Instead, we will encode the remaining categorical columns ('category', 'gender',
 
 ![](https://github.com/longnguyen0102/photo/blob/main/credit_card_fraud-python/model_training_1.png)
 
-➡️ ***Splitting*** the dataset into training, validation, and test sets serves several critical purposes in machine learning:  
+ℹ️ ***Splitting*** the dataset into training, validation, and test sets serves several critical purposes in machine learning:  
 1. *Preventing overfitting:* Overfitting occurs when a model learns patterns too specifically from the training data and fails to generalize to unseen data. By keeping a portion of the dataset (validation and test sets) separate during training, we can evaluate whether the model generalizes well.
 2. *Model performance evaluation:* The test set provides an unbiased evaluation of the final model’s performance on completely unseen data. This gives us a realistic estimate of how the model will behave in production or real-world scenarios.  
 3. *Model selection and hyperparameter tuning:* The validation set is used during model development to:  
@@ -340,7 +340,7 @@ Instead, we will encode the remaining categorical columns ('category', 'gender',
 - Fine-tune hyperparameters to optimize performance without touching the test set.  
 In summary, dataset splitting ensures that we build machine learning models that are robust, reliable, and capable of generalizing effectively to new data.  
 
-➡️ First, we drop the column is_fraud, since after training the model will generate a new is_fraud column to record the predictions. This allows us to compare the actual values with the model’s outputs. Next, we split the dataset into two parts: a training set (70% of the data) and a temporary set (30%). The temporary set is then further divided into a validation set (70%) and a test set (30%).  
+✅ First, we drop the column is_fraud, since after training the model will generate a new is_fraud column to record the predictions. This allows us to compare the actual values with the model’s outputs. Next, we split the dataset into two parts: a training set (70% of the data) and a temporary set (30%). The temporary set is then further divided into a validation set (70%) and a test set (30%).  
 
 <details>
  <summary>Normalize dataset:</summary>
@@ -358,7 +358,7 @@ In summary, dataset splitting ensures that we build machine learning models that
 
 </details>
 
-➡️ ***Normalization*** is a data preprocessing step that rescales the features of a dataset to a standard range. This is often done to improve the performance of machine learning algorithms, as many algorithms are sensitive to the scale of input features.
+ℹ️ ***Normalization*** is a data preprocessing step that rescales the features of a dataset to a standard range. This is often done to improve the performance of machine learning algorithms, as many algorithms are sensitive to the scale of input features.
 
 <details>
  <summary>Apply model:</summary>
@@ -386,7 +386,7 @@ In summary, dataset splitting ensures that we build machine learning models that
 
 </details>
 
-➡️ Applying both approaches to build the machine learning model. The goal is to compare them and identify which approach yields the best evaluation metrics.  
+✅ Applying both approaches to build the machine learning model. The goal is to compare them and identify which approach yields the best evaluation metrics.  
 
 | Logistics Regression | Random Forest |
 |----------------------|---------------|
@@ -398,14 +398,14 @@ In summary, dataset splitting ensures that we build machine learning models that
 
 ### 4️⃣ Model Evaluation  
 
-➡️ ***Model evaluation*** is a crucial step in the machine learning workflow. It helps us understand how well our trained model performs on unseen data and assess its effectiveness in solving the problem at hand. By evaluating a model, we can:  
+ℹ️ ***Model evaluation*** is a crucial step in the machine learning workflow. It helps us understand how well our trained model performs on unseen data and assess its effectiveness in solving the problem at hand. By evaluating a model, we can:  
 1. *Measure Performance:* Quantify the model's accuracy, precision, recall, or other relevant metrics to understand its strengths and weaknesses.
 2. *Compare Models:* Determine which model is best suited for the task when comparing different algorithms or hyperparameter settings.  
 3. *Identify Overfitting/Underfitting:* Check if the model is too complex (overfitting) or too simple (underfitting) by comparing its performance on training and validation/test datasets.
 4. *Tune Hyperparameters:* Use evaluation metrics to guide the process of optimizing the model's hyperparameters for better performance.
 5. *Gain Confidence:* Build confidence in the model's ability to generalize to new data before deploying it.  
 
-➡️ In this step, using 2 steps for evaluating model (on both Logistic Regression and Random Forest): **calculating balanced accuracy** and **using Confusion Matrix plot for visualization performance**.  
+ℹ️ In this step, using 2 steps for evaluating model (on both Logistic Regression and Random Forest): **calculating balanced accuracy** and **using Confusion Matrix plot for visualization performance**.  
 - Calcualting balanced accuracy: this step applies on training and validation data. It compares the model's predictions on the training data to the true values and gives you a balanced measure of how well the model performed on the training set.  
 - Confusion matrix: a table that summarizes the performance of a classification model. It shows the number of correct and incorrect predictions made by the model compared to the actual outcomes.  
 
@@ -441,13 +441,28 @@ In summary, dataset splitting ensures that we build machine learning models that
  ```
 </details>
 
-1. **True Negatives (TN):** 18967 - The model is very good at correctly identifying non-fraudulent transactions.
-2. **True Positives (TP):** 570 - The model correctly identifies a significant number of fraudulent transactions.
-3. **False Positives (FP):** 45 - The model incorrectly flags a relatively small number of non-fraudulent transactions as fraudulent.
+![](https://github.com/longnguyen0102/photo/blob/main/credit_card_fraud-python/model_training_3.png)
+
+1. **True Negatives (TN):** 18967 - The model is very good at correctly identifying non-fraudulent transactions.  
+2. **True Positives (TP):** 570 - The model correctly identifies a significant number of fraudulent transactions.  
+3. **False Positives (FP):** 45 - The model incorrectly flags a relatively small number of non-fraudulent transactions as fraudulent.  
 4. **False Negatives (FN):** 945 - The model misses a substantial number of fraudulent transactions.
 
-***Conclusion for Logistic Regression:***
-The Logistic Regression model has a high true negative rate, meaning it's effective at identifying legitimate transactions. However, it has a relatively high number of false negatives, indicating that it is not as effective at catching fraudulent transactions. This suggests that while the model has good precision (when it predicts fraud, it's often correct), it has lower recall (it misses many actual fraudulent cases). In a fraud detection context, minimizing false negatives is often a higher priority than minimizing false positives, as missing fraud is generally more costly than incorrectly flagging a legitimate transaction.
+➡️ The Logistic Regression model has a high true negative rate, meaning it's effective at identifying legitimate transactions. However, it has a relatively high number of false negatives, indicating that it is not as effective at catching fraudulent transactions. This suggests that while the model has good precision (when it predicts fraud, it's often correct), it has lower recall (it misses many actual fraudulent cases). In a fraud detection context, minimizing false negatives is often a higher priority than minimizing false positives, as missing fraud is generally more costly than incorrectly flagging a legitimate transaction.  
+
+#### Random Forest:  
+
+<details>
+ <summary>Balanced accuracy:</summary>
+
+ ```python
+ balanced_accuracy_train = balanced_accuracy_score(y_train,y_ranf_pre_train)
+ balanced_accuracy_val = balanced_accuracy_score(y_val, y_ranf_pre_val)
+ 
+ print(f'Balanced accuracy training data: {balanced_accuracy_train}')
+ print(f'Balanced accuracy validation data: {balanced_accuracy_val}')
+ ```
+</details>
 
 ## 📌 Key Takeaways:  
 ✔️ 
