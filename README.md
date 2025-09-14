@@ -206,8 +206,8 @@ Using the whole dataset.
 
 ![feature_engineering_1](https://github.com/longnguyen0102/photo/blob/main/credit_card_fraud-python/feature_engineering_1.png)
 
-➡️ This code is creating a new column called 'tns_hour' in the data DataFrame. It does this by applying a function to the 'trans_date_trans_time' column. The function converts each date and time string into a datetime object and then extracts the hour from that object. Finally, it displays the first few rows of the original 'trans_date_trans_time' column and the newly created 'tns_hour' column to show the result.  
-➡️ The purpose of creating the 'tns_hour' column is to extract the transaction hour from the full datetime field ('trans_date_trans_time'). Transaction time can be an important factor in fraud detection, as fraudulent activities may tend to occur during specific hours of the day. By including the 'tns_hour' feature, the model can learn patterns related to the timing of transactions.  
+❔This code is creating a new column called 'tns_hour' in the data DataFrame. It does this by applying a function to the 'trans_date_trans_time' column. The function converts each date and time string into a datetime object and then extracts the hour from that object. Finally, it displays the first few rows of the original 'trans_date_trans_time' column and the newly created 'tns_hour' column to show the result.  
+❕ The purpose of creating the 'tns_hour' column is to extract the transaction hour from the full datetime field ('trans_date_trans_time'). Transaction time can be an important factor in fraud detection, as fraudulent activities may tend to occur during specific hours of the day. By including the 'tns_hour' feature, the model can learn patterns related to the timing of transactions.  
 
 <details>
  <summary>Age of Users:</summary>
