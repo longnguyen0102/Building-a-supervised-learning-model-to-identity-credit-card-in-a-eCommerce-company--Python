@@ -464,5 +464,56 @@ In summary, dataset splitting ensures that we build machine learning models that
  ```
 </details>
 
+![](https://github.com/longnguyen0102/photo/blob/main/credit_card_fraud-python/model_training_4.png)
+
+✅ These balanced accuracy scores (around 0.90) are significantly higher than those of the Logistic Regression model (around 0.69). This indicates that the Random Forest model is much better at correctly classifying both fraudulent and non-fraudulent transactions.  
+➡️ Comparing the two models based on balanced accuracy, the Random Forest model is clearly performing much better at identifying both classes accurately.  
+
+<details>
+ <summary>Grid Search</summary>
+
+ ```python
+ # creating a dictionary to test RandomForestClassifier
+ param_grid = {
+     'n_estimators': [10,100,200],
+     'max_depth' : [None, 15]
+ }
+ 
+ grid_search = GridSearchCV(clf_rand, param_grid, cv=5, scoring='balanced_accuracy')
+ 
+ grid_search.fit(x_train, y_train)
+ 
+ print('Best Parameters: ', grid_search.best_params_)
+ 
+ best_clf = grid_search.best_estimator_
+ accuracy = best_clf.score(x_test, y_test)
+ ```
+</details>
+
+✅ The grid search helped you identify the specific settings for your Random Forest model that are likely to give you the best performance on unseen data, according to the balanced accuracy metric.  
+
+<details>
+ <summary>Calculating Mean Squared Error & R-squared</summary>
+
+ ```python
+ # calculate predictions on the test set using the best estimator
+ y_pred_test = best_clf.predict(x_test)
+ 
+ mse = mean_squared_error(y_test, y_pred_test)
+ r2 = r2_score(y_test, y_pred_test)
+ 
+ print(f'Mean Squared Error on Test Set: {mse}')
+ print(f'R-squared on Test Set: {r2}')
+ ```
+</details>
+
+![](https://github.com/longnguyen0102/photo/blob/main/credit_card_fraud-python/model_training_5.png)
+
+ℹ️ **Mean Squared Error (MSE)** and **R-squared** are metrics used to evaluate the performance of regression models.  
+- *MSE:* Measures the average of the squared errors between the actual values and the model's predicted values. A lower MSE indicates a more accurate model.
+- *R-squared:* Measures the goodness of fit of the model to the data. It represents the proportion of the variance in the dependent variable (the variable you want to predict) that is explained by the independent variables (your features). R-squared values range from 0 to 1. A value closer to 1 indicates that the model better explains the data's variability.  
+
+
+
 ## 📌 Key Takeaways:  
 ✔️ 
