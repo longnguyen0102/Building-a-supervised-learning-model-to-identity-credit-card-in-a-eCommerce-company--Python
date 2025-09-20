@@ -511,9 +511,32 @@ In summary, dataset splitting ensures that we build machine learning models that
 
 ℹ️ **Mean Squared Error (MSE)** and **R-squared** are metrics used to evaluate the performance of regression models.  
 - *MSE:* Measures the average of the squared errors between the actual values and the model's predicted values. A lower MSE indicates a more accurate model.
-- *R-squared:* Measures the goodness of fit of the model to the data. It represents the proportion of the variance in the dependent variable (the variable you want to predict) that is explained by the independent variables (your features). R-squared values range from 0 to 1. A value closer to 1 indicates that the model better explains the data's variability.  
+- *R-squared:* Measures the goodness of fit of the model to the data. It represents the proportion of the variance in the dependent variable (the variable you want to predict) that is explained by the independent variables (your features). R-squared values range from 0 to 1. A value closer to 1 indicates that the model better explains the data's variability.
+➡️ The low MSE (0.01068) suggests that the model's predictions are generally close to the actual values (either 0 or 1). The high R-squared (0.855) indicates that a large proportion of the variability in the 'is_fraud' variable can be explained by the features used in the model. While these are regression metrics, in a classification context with a binary target (0 or 1), they suggest that the model is doing a good job of assigning scores or probabilities that align with the true class labels. This reinforces the findings from the balanced accuracy and confusion matrix that the Random Forest model is performing well.  
 
+<details>
+ <summary>Confusion matrix:</summary>
 
+ ```python
+ cm_rand = confusion_matrix(y_val, y_ranf_pre_val, labels=clf_rand.classes_)
+ disp_rand = ConfusionMatrixDisplay(confusion_matrix=cm_rand, display_labels=clf_rand.classes_)
+ disp_rand.plot()
+ plt.show()
+ ```
+</details>
+
+![](https://github.com/longnguyen0102/photo/blob/main/credit_card_fraud-python/model_training_6.png)
+
+1.  **True Negatives (TN):** 18977 - The model correctly identified a large number of non-fraudulent transactions.  
+2.  **True Positives (TP):** 1209 - The model correctly identified a significant number of fraudulent transactions. This is a substantial improvement compared to the Logistic Regression model.  
+3. **False Positives (FP):** 35 - The model incorrectly flagged a small number of non-fraudulent transactions as fraudulent. This is lower than the Logistic Regression model.  
+4. **False Negatives (FN):** 306 - The model missed a number of fraudulent transactions. While lower than the Logistic Regression model, this is still an important area for potential improvement.
+
+➡️ The Random Forest model demonstrates much better performance in identifying fraudulent transactions compared to the Logistic Regression model. It has a higher number of True Positives and a lower number of False Negatives. While it still misses some fraudulent cases, its ability to correctly classify both classes is significantly better, as indicated by the higher balanced accuracy scores previously observed. The relatively low number of False Positives is also a positive sign, suggesting the model is not excessively flagging legitimate transactions as fraudulent. Overall, the Random Forest model appears to be a more suitable choice for this fraud detection task.  
 
 ## 📌 Key Takeaways:  
-✔️ 
+✔️ **Random Forest outperforms Logistic Regression:** The Random Forest model achieved significantly higher balanced accuracy scores (around 0.90) compared to Logistic Regression (around 0.69). This indicates that the Random Forest model is much better at correctly classifying both fraudulent and non-fraudulent transactions.  
+✔️ **Random Forest is better at identifying fraud:** The confusion matrix for the Random Forest model shows a much higher number of True Positives (correctly identified fraudulent transactions) and a lower number of False Negatives (missed fraudulent transactions) compared to the Logistic Regression model. This is crucial in a fraud detection scenario where minimizing missed fraud cases is a priority.  
+✔️  **Low False Positives in Random Forest:** The Random Forest model also has a relatively low number of False Positives (incorrectly flagged legitimate transactions), which is desirable as it avoids unnecessary disruptions for legitimate users.  
+✔️  **Feature Engineering and Model Choice Impact:** The feature engineering steps (like creating tns_hour, age, and distance) and the choice of a more complex model like Random Forest have significantly improved the ability to detect fraudulent transactions compared to a simpler model like Logistic Regression.  
+✔️ **Regression Metrics in Classification Context:** While MSE and R-squared are regression metrics, their values in this binary classification context suggest that the Random Forest model's internal scoring or probability assignments align well with the true class labels, further supporting its good performance.  
